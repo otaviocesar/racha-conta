@@ -24,16 +24,33 @@ class Users with ChangeNotifier {
       return;
     }
 
-    //adicionar
-    final id = Random().nextDouble().toString();
-    users.putIfAbsent(
-        id,
-        () => User(
-            id: id,
-            name: user.name,
-            qtdAcertos: user.qtdAcertos,
-            valor: user.valor));
-
+    if (user.id != null &&
+        user.id.trim().isNotEmpty &&
+        users.containsKey(user.id)) {
+      users.update(
+          user.id,
+          (_) => User(
+              id: user.id,
+              name: user.name,
+              qtdAcertos: user.qtdAcertos,
+              valor: user.valor));
+    } else {
+      final id = Random().nextDouble().toString();
+      users.putIfAbsent(
+          id,
+          () => User(
+              id: id,
+              name: user.name,
+              qtdAcertos: user.qtdAcertos,
+              valor: user.valor));
+    }
     notifyListeners();
+  }
+
+  void remove(User user) {
+    if (user != null && user.id != null) {
+      users.remove(user.id);
+      notifyListeners();
+    }
   }
 }
