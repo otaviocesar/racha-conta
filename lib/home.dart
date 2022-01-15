@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rachaconta/widgets/user_list.dart';
+import 'package:rachaconta/views/user_list.dart';
+import 'package:rachaconta/providers/users.dart';
+
+import 'models/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,8 +19,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: const Text("Racha Conta com Quiz"), centerTitle: true),
       body: _body(),
     );
   }
