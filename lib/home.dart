@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rachaconta/widgets/user_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,8 +31,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _body() {
-    return SingleChildScrollView(
-        padding: const EdgeInsets.all(30.0),
+    return CustomScrollView(slivers: [
+      SliverToBoxAdapter(
         child: Form(
           key: _formKey,
           child: Column(
@@ -41,10 +42,16 @@ class _HomePageState extends State<HomePage> {
               _form("Quantidade de Pessoas", _qtdPessoas),
               _botaoCalcular(),
               const SizedBox(height: 15),
-              _botaoLimpar()
+              _botaoLimpar(),
+              const SizedBox(height: 15),
             ],
           ),
-        ));
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: SizedBox(height: 500, child: UserList()),
+      ),
+    ]);
   }
 
   _form(String field, TextEditingController controller) {
