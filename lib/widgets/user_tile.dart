@@ -28,7 +28,7 @@ class UserTile extends StatelessWidget {
                         context: context,
                         builder: (ctx) => AlertDialog(
                               title: const Text('Excluir Usuário'),
-                              content: const Text('Tem certeza???'),
+                              content: const Text('Tem certeza?'),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text('Não'),
@@ -44,7 +44,7 @@ class UserTile extends StatelessWidget {
                             )).then((confirmed) {
                       if (confirmed) {
                         Provider.of<Users>(context, listen: false).remove(user);
-                      } //if
+                      }
                     });
                   }),
               IconButton(

@@ -10,17 +10,10 @@ class UserList extends StatelessWidget {
     final Users users = Provider.of(context);
 
     return Scaffold(
-        body: ListView.builder(
-          itemCount: users.count,
-          itemBuilder: (ctx, i) => UserTile(users.byIndex(i)),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            users.put(User(
-                id: "", name: "Teste", qtdAcertos: "Teste", valor: "Teste"));
-          },
-          tooltip: 'add User',
-          child: const Icon(Icons.add),
-        ));
+      body: ListView.builder(
+        itemCount: users.count,
+        itemBuilder: (ctx, i) => UserTile(users.byIndex(i)),
+      ),
+    );
   }
 }
