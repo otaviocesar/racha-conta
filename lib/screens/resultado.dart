@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:rachaconta/views/user_list.dart';
 import 'package:rachaconta/providers/users.dart';
 
-import 'models/user.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -42,9 +40,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _formName("Nome", _nome),
-              _botaoCadastrar(users),
-              const SizedBox(height: 15),
               _form("Valor Total", _total),
               _botaoLimpar(),
               const SizedBox(height: 15),
@@ -60,25 +55,6 @@ class _HomePageState extends State<HomePage> {
     ]);
   }
 
-  _formName(String field, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      validator: (s) => _validarNome(s!, field),
-      keyboardType: TextInputType.number,
-      style: const TextStyle(
-        fontSize: 20,
-        color: Colors.black,
-      ),
-      decoration: InputDecoration(
-        labelText: field,
-        labelStyle: const TextStyle(
-          fontSize: 20,
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-
   _form(String field, TextEditingController controller) {
     return TextFormField(
       controller: controller,
@@ -86,13 +62,13 @@ class _HomePageState extends State<HomePage> {
       keyboardType: TextInputType.number,
       style: const TextStyle(
         fontSize: 20,
-        color: Colors.black,
+        color: Colors.white70,
       ),
       decoration: InputDecoration(
         labelText: field,
         labelStyle: const TextStyle(
           fontSize: 20,
-          color: Colors.black,
+          color: Colors.white70,
         ),
       ),
     );
@@ -105,52 +81,36 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
-  String? _validarNome(String text, String field) {
-    if (text == null || text.trim().isEmpty) {
-      return "$field inválido!";
-    }
-
-    if (text.trim().length < 3) {
-      return "$field muito pequeno. No mínimo 3 letras.";
-    }
-    return null;
-  }
-
-  _botaoCadastrar(users) {
-    return SizedBox(
-      height: 35,
-      child: ElevatedButton(
-        onPressed: () {
-          users
-              .put(User(id: "", name: _nome.text, qtdAcertos: "0", valor: "0"));
-        },
-        child: const Text("Incluir"),
-      ),
-    );
-  }
-
   _botaoCalcular(_qtdPessoas) {
     return SizedBox(
-      height: 35,
+      height: 40,
+      width: 1500,
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             _calcular(_qtdPessoas);
           }
         },
-        child: const Text("Calcular"),
+        child: const Text("Limpar"),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue[800],
+        ),
       ),
     );
   }
 
   _botaoLimpar() {
     return SizedBox(
-      height: 35,
+      height: 40,
+      width: 1500,
       child: ElevatedButton(
         onPressed: () {
           _limpar();
         },
         child: const Text("Limpar"),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue[800],
+        ),
       ),
     );
   }
