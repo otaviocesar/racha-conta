@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rachaconta/controllers/question.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:rachaconta/screens/resultado.dart';
+import 'package:rachaconta/screens/calculation.dart';
 import 'package:rachaconta/models/user.dart';
 import 'package:rachaconta/providers/users.dart';
+import 'package:rachaconta/screens/home.dart';
 
 class ScoreScreen extends StatelessWidget {
   final _nome = TextEditingController();
@@ -42,16 +43,18 @@ class ScoreScreen extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "${_qnController.correctAns}/${_qnController.questions.length}",
+                "${_qnController.numOfCorrectAns}/${_qnController.questions.length}",
                 style: Theme.of(context)
                     .textTheme
                     .headline4
                     ?.copyWith(color: Colors.white70),
               ),
               Spacer(flex: 3),
-              _botaoCadastrar(users, _qnController.correctAns),
+              _botaoCadastrar(users, _qnController.numOfCorrectAns),
               Spacer(flex: 1),
               _botaoFinalizar(),
+              Spacer(flex: 3),
+              _botaoNovoQuiz(),
               Spacer(flex: 3),
             ],
           )
@@ -113,8 +116,24 @@ class ScoreScreen extends StatelessWidget {
       height: 35,
       width: 1500,
       child: ElevatedButton(
-        onPressed: () => Get.to(HomePage()),
-        child: const Text("Finalizar"),
+        onPressed: () => Get.to(const CalculationScreen()),
+        child: const Text("Resultados"),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue[800],
+        ),
+      ),
+    );
+  }
+
+  _botaoNovoQuiz() {
+    QuestionController _qnController = Get.put(QuestionController());
+    _qnController.reset();
+    return SizedBox(
+      height: 35,
+      width: 1500,
+      child: ElevatedButton(
+        onPressed: () => Get.to(HomeScreen()),
+        child: const Text("Novo Quiz"),
         style: ElevatedButton.styleFrom(
           primary: Colors.blue[800],
         ),

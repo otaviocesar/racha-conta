@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:rachaconta/views/user_list.dart';
 import 'package:rachaconta/providers/users.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class CalculationScreen extends StatefulWidget {
+  const CalculationScreen({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _CalculationScreenState createState() => _CalculationScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CalculationScreenState extends State<CalculationScreen> {
   final _total = TextEditingController();
   final _nome = TextEditingController();
   var _formKey = GlobalKey<FormState>();
@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Users users = Provider.of(context);
+    users.limparUserTeste();
     final _qtdPessoas = users.count;
     return Scaffold(
       body: _body(_qtdPessoas, users),
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             _calcular(_qtdPessoas);
           }
         },
-        child: const Text("Limpar"),
+        child: const Text("Calcular"),
         style: ElevatedButton.styleFrom(
           primary: Colors.blue[800],
         ),

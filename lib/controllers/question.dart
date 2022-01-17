@@ -98,4 +98,11 @@ class QuestionController extends GetxController
   String getNameUser() {
     return _nameUser;
   }
+
+  void reset() {
+    _questionNumber = 1.obs;
+    _numOfCorrectAns = 0;
+    _isAnswered = false;
+    onInit();
+  }
 }

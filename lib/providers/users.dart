@@ -53,4 +53,9 @@ class Users with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void limparUserTeste() {
+    users.remove("1");
+    notifyListeners();
+  }
 }

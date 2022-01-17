@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rachaconta/providers/users.dart';
-import 'package:rachaconta/screens/welcome.dart';
+import 'package:rachaconta/screens/home.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'Racha Conta com Quiz',
         theme: ThemeData.dark(),
-        home: WelcomeScreen(),
+        home: HomeScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

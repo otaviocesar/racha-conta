@@ -16,7 +16,8 @@ class UserTile extends StatelessWidget {
     return ListTile(
         leading: avatar,
         title: Text(user.name),
-        subtitle: Text(user.valor),
+        subtitle: Text(
+            "Acertos: " + user.qtdAcertos + "/ Valor a pagar: " + user.valor),
         trailing: Container(
             width: 100,
             child: Row(children: <Widget>[
@@ -47,10 +48,6 @@ class UserTile extends StatelessWidget {
                       }
                     });
                   }),
-              IconButton(
-                  icon: const Icon(Icons.quiz),
-                  color: Colors.greenAccent,
-                  onPressed: () {}),
             ])));
   }
 }
