@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rachaconta/data/users_data.dart';
+import 'package:rachaconta/models/user.dart';
 import 'package:rachaconta/views/user_list.dart';
 import 'package:rachaconta/providers/users.dart';
 
@@ -11,7 +13,7 @@ class CalculationScreen extends StatefulWidget {
 }
 
 class _CalculationScreenState extends State<CalculationScreen> {
-  final _total = TextEditingController();
+  final _valorTotal = TextEditingController();
   final _nome = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
@@ -26,7 +28,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
   }
 
   void _limpar() {
-    _total.text = "";
+    _valorTotal.text = "";
     _nome.text = "";
     setState(() {
       _formKey = GlobalKey<FormState>();
@@ -41,10 +43,10 @@ class _CalculationScreenState extends State<CalculationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _form("Valor Total", _total),
+              _form("Valor Total", _valorTotal),
               _botaoLimpar(),
               const SizedBox(height: 15),
-              _botaoCalcular(_qtdPessoas),
+              _botaoCalcular(users, _qtdPessoas, _valorTotal),
               const SizedBox(height: 15),
             ],
           ),
@@ -82,14 +84,14 @@ class _CalculationScreenState extends State<CalculationScreen> {
     return null;
   }
 
-  _botaoCalcular(_qtdPessoas) {
+  _botaoCalcular(users, _qtdPessoas, _valorTotal) {
     return SizedBox(
       height: 40,
       width: 1500,
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _calcular(_qtdPessoas);
+            _calcular(users, _qtdPessoas, _valorTotal);
           }
         },
         child: const Text("Calcular"),
@@ -116,19 +118,53 @@ class _CalculationScreenState extends State<CalculationScreen> {
     );
   }
 
-  void _calcular(_qtdPessoas) {
+  void _calcular(users, _qtdPessoas, _valorTotal) {
     setState(() {
-      var pessoas = _qtdPessoas.toString();
-      double valor = double.parse(_total.text);
-      print(valor);
-      print(_qtdPessoas);
-      double qtpessoas = double.parse(pessoas);
-      double vruni = (valor / qtpessoas);
-      double total = valor;
-      String vruniStr = vruni.toStringAsPrecision(4);
-      String vrtotal = total.toStringAsPrecision(4);
-      print("Valor Para Cada Um: $vruniStr"
-          "\nValor Total da Conta: $vrtotal");
+      int questoes = 5;
+      print("valorTotal: " + _valorTotal.text);
+      int valorTotal = int.parse(_valorTotal.text);
+      var quantidadePessoas = _qtdPessoas;
+      print("quantidadePessoas:" + quantidadePessoas.toString());
+      double media = valorTotal / quantidadePessoas;
+      print("media:" + media.toString());
+      double total = 0;
+      double sobra = 0;
+
+      for (int i = 0; i < quantidadePessoas; i++) {
+        print("qtdAcertos: " + users.byIndex(i).qtdAcertos.toString());
+        int qtdAcertos = int.parse(users.byIndex(i).qtdAcertos);
+
+        int erros = questoes - qtdAcertos;
+        print("erros: " + erros.toString());
+        double porcentagemMais = 1 + (erros / questoes);
+        print("porcentagemMais: " + porcentagemMais.toString());
+        double valor = media * porcentagemMais;
+        print("valor: " + valor.toString());
+        double sobraParcial = media - valor;
+        print("sobraParcial: " + sobraParcial.toString());
+        sobra = sobra + sobraParcial;
+        users.put(User(
+            id: users.byIndex(i).id,
+            name: users.byIndex(i).name,
+            qtdAcertos: users.byIndex(i).qtdAcertos,
+            valor: valor.toString()));
+      }
+
+      for (int i = 0; i < quantidadePessoas; i++) {
+        double valorAtual = double.parse(users.byIndex(i).valor);
+        double valorPagar = valorAtual + (sobra / quantidadePessoas);
+        users.put(User(
+            id: users.byIndex(i).id,
+            name: users.byIndex(i).name,
+            qtdAcertos: users.byIndex(i).qtdAcertos,
+            valor: valorPagar.toString()));
+      }
+
+      for (int i = 0; i < quantidadePessoas; i++) {
+        double valorAtualMaisSobra = double.parse(users.byIndex(i).valor);
+        total = total + valorAtualMaisSobra;
+      }
+      print(total);
     });
   }
 }
